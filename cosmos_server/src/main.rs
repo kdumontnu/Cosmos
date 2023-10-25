@@ -3,9 +3,9 @@
 #![feature(fs_try_exists)]
 #![warn(missing_docs)]
 
-use std::env;
+use std::{env, time::Duration};
 
-use bevy::{core::TaskPoolThreadAssignmentPolicy, prelude::*};
+use bevy::{asset::ChangeWatcher, core::TaskPoolThreadAssignmentPolicy, prelude::*};
 use bevy_rapier3d::prelude::{RapierConfiguration, TimestepMode};
 use bevy_renet::{transport::NetcodeServerPlugin, RenetServerPlugin};
 use cosmos_core::plugin::cosmos_core_plugin::CosmosCorePluginGroup;
@@ -71,6 +71,14 @@ fn main() {
                         },
                         ..Default::default()
                     },
+                })
+                .set(AssetPlugin {
+                    watch_for_changes: if cfg!(debug_assertions) {
+                        ChangeWatcher::with_delay(Duration::from_secs(1))
+                    } else {
+                        None
+                    },
+                    ..Default::default()
                 })
                 .set(ImagePlugin::default_nearest()),
         )

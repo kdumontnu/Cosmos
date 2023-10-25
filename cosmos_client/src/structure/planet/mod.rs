@@ -20,6 +20,7 @@ use crate::{
 };
 
 pub mod align_player;
+pub mod atmosphere;
 pub mod biosphere;
 pub mod client_planet_builder;
 mod lod;
@@ -136,6 +137,7 @@ pub fn unload_chunks_far_from_players(
 
 pub(super) fn register(app: &mut App) {
     align_player::register(app);
+    atmosphere::register(app);
     biosphere::register(app);
     lod::register(app);
 
